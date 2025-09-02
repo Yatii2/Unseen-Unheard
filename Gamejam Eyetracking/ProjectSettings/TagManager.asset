@@ -47,5 +47,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Player
+    uniqueID: 1137639139
+    locked: 0
+  - name: Laser
+    uniqueID: 1242089575
+    locked: 0
   m_RenderingLayers:
   - Default
