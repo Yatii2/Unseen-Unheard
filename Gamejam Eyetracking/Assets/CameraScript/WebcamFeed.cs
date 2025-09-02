@@ -19,6 +19,7 @@ public class WebcamFeed : MonoBehaviour
 
     void Update()
     {
+
         if (webCamTexture.isPlaying && webCamTexture.didUpdateThisFrame)
         {
             float brightness = GetAverageBrightness(webCamTexture);
@@ -27,8 +28,11 @@ public class WebcamFeed : MonoBehaviour
 
             float darknessPercent = (1.0f - brightness) * 100f;
             Debug.Log($"Brightness: {brightness:F2}, Darkness: {darknessPercent:F0}%, Visibility: {visibility:F2}");
-            // Use `visibility` for your player logic!
+
+            if (PlayerVisibility.Instance != null)
+                PlayerVisibility.Instance.SetVisibility(visibility);
         }
+
     }
 
     float GetAverageBrightness(WebCamTexture tex)
