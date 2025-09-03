@@ -1,17 +1,24 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal; // For Light2D
 
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public Transform spawnPoint;
+    public Light2D playerLight; // Assign this in the inspector
 
     void Update()
     {
         // Block movement if visibility is too high
-        if (PlayerVisibility.Instance != null && PlayerVisibility.Instance.CurrentVisibility <= 0.30f)
+        if (PlayerVisibility.Instance != null)
         {
-            return; // No movement allowed
+            bool tooDark = PlayerVisibility.Instance.CurrentVisibility <= 0.30f;
+            if (playerLight != null)
+                playerLight.enabled = !tooDark; // Disable light when too dark
+
+            if (tooDark)
+                return; // No movement allowed
         }
 
         Vector2 movement = Vector2.zero;
