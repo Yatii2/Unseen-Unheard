@@ -1,16 +1,4 @@
 {
-  "scopedRegistries": [
-    {
-      "name": "Keijiro",
-      "url": "https://registry.npmjs.com",
-      "scopes": ["jp.keijiro"]
-    },
-    {
-      "name": "creativeikep",
-      "url": "https://registry.npmjs.com",
-      "scopes": ["jp.ikep"]
-    }
-  ],
   "dependencies": {
     "com.unity.2d.animation": "12.0.2",
     "com.unity.2d.aseprite": "2.0.1",
