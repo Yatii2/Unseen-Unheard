@@ -3,7 +3,7 @@ using UnityEngine;
 public class MicInputLevel : MonoBehaviour
 {
     public float sensitivity = 100.0f;
-    public float loudness = 0.0f;
+    public int loudness = 0; // Changed to int
 
     private AudioClip micClip;
     private string micName;
@@ -26,7 +26,7 @@ public class MicInputLevel : MonoBehaviour
     {
         if (micClip != null)
         {
-            loudness = GetMaxVolume() * sensitivity;
+            loudness = Mathf.RoundToInt(GetMaxVolume() * sensitivity); // Rounded to nearest integer
         }
     }
 
@@ -35,7 +35,6 @@ public class MicInputLevel : MonoBehaviour
         float maxVolume = 0f;
         float[] waveData = new float[sampleWindow];
         int micPosition = Microphone.GetPosition(micName) - (sampleWindow + 1);
-
         if (micPosition < 0) return 0;
 
         micClip.GetData(waveData, micPosition);
@@ -43,13 +42,13 @@ public class MicInputLevel : MonoBehaviour
         for (int i = 0; i < sampleWindow; ++i)
         {
             float wavePeak = Mathf.Abs(waveData[i]);
-            if (wavePeak > maxVolume)
-                maxVolume = wavePeak;
+            if (wavePeak > maxVolume) maxVolume = wavePeak;
         }
+
         return maxVolume;
     }
 
-    public float GetLoudness()
+    public int GetLoudness()
     {
         return loudness;
     }
