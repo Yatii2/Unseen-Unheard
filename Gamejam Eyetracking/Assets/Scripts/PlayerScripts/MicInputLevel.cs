@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MicInputLevel : MonoBehaviour
 {
-    public float sensitivity = 100.0f; // You can change this in the Inspector
+    public float sensitivity = 100.0f;
     public float loudness = 0.0f;
 
     private AudioClip micClip;
@@ -11,7 +11,6 @@ public class MicInputLevel : MonoBehaviour
 
     void Start()
     {
-        // Use the default microphone
         if (Microphone.devices.Length > 0)
         {
             micName = Microphone.devices[0];
@@ -28,7 +27,6 @@ public class MicInputLevel : MonoBehaviour
         if (micClip != null)
         {
             loudness = GetMaxVolume() * sensitivity;
-            Debug.Log("Sound Level: " + loudness.ToString("F2"));
         }
     }
 
@@ -41,15 +39,18 @@ public class MicInputLevel : MonoBehaviour
         if (micPosition < 0) return 0;
 
         micClip.GetData(waveData, micPosition);
-        // Find the max value in the wave data
+
         for (int i = 0; i < sampleWindow; ++i)
         {
             float wavePeak = Mathf.Abs(waveData[i]);
             if (wavePeak > maxVolume)
-            {
                 maxVolume = wavePeak;
-            }
         }
         return maxVolume;
+    }
+
+    public float GetLoudness()
+    {
+        return loudness;
     }
 }
