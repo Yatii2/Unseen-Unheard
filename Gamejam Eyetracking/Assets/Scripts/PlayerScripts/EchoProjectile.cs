@@ -5,7 +5,7 @@ public class EchoProjectile : MonoBehaviour
     public float speed = 5f;
     private Vector2 direction;
     private int bounceCount = 0;
-    private int maxBounces = 2;
+    private int maxBounces = 3;
 
     public void Initialize(Vector2 direction, float speed)
     {
