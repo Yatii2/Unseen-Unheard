@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MicInputLevel : MonoBehaviour
 {
-    public float sensitivity = 100.0f; // You can change this in the Inspector
+    public float sensitivity = 100.0f;
     public float loudness = 0.0f;
 
     private AudioClip micClip;
@@ -50,6 +50,8 @@ public class MicInputLevel : MonoBehaviour
                 maxVolume = wavePeak;
             }
         }
+        // Ignore noise floor
+        if (maxVolume < 0.01f) maxVolume = 0f;
         return maxVolume;
     }
 }

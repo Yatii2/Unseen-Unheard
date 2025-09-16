@@ -10,12 +10,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // Block movement if visibility is too high
+
         if (PlayerVisibility.Instance != null)
         {
             bool tooDark = PlayerVisibility.Instance.CurrentVisibility <= 0.30f;
             if (playerLight != null)
-                playerLight.enabled = !tooDark; // Disable light when too dark
+                playerLight.enabled = !tooDark; 
 
             if (tooDark)
                 return; // No movement allowed
