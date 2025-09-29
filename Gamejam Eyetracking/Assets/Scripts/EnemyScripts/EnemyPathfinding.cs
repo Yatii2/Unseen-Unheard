@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class EnemyPathfinding : MonoBehaviour
 {
-    [Header("Patrol Settings")]
     public Transform[] patrolPoints;
     public float speed = 2f;
     public float waypointTolerance = 0.2f;
 
-    private int currentPatrolIndex = 0;
+    public int currentPatrolIndex = 0;
 
     public void Patrol()
     {
