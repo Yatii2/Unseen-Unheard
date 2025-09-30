@@ -4,67 +4,64 @@ public class EchoShooter : MonoBehaviour
 {
     public GameObject echoProjectilePrefab;
     public MicInputLevel micInput;
-    public float minLoudness = 20f;
-    public float shootInterval = 1f;
-    public float baseSpeed = 5f;
-    public float maxSpeed = 20f;
-    public float loudnessToSpeedMultiplier = 25f;
+
+    [Header("Shooting Settings")]
+    public float minLoudness = 10f;         // threshold where it starts shooting
+    public float minShootInterval = 0.12f;  // quiet: slower fire rate (~8 shots/sec)
+    public float maxShootInterval = 0.02f;  // loud: very fast fire (~50 shots/sec)
+
+    [Header("Projectile Speed")]
+    public float baseSpeed = 10f;
+    public float maxSpeed = 50f;            // louder voice = much faster projectiles
+
+    [Header("Smoothing")]
+    public float smoothingSpeed = 5f;       // higher = reacts quicker to volume
 
     private float shootTimer = 0f;
-    private bool isMakingNoise = false;
+    private float smoothedLoudness = 0f;
 
     void Update()
     {
-        if (micInput == null)
-        {
-            Debug.LogError("MicInputLevel is not assigned in EchoShooter!");
+        if (micInput == null || echoProjectilePrefab == null || Camera.main == null)
             return;
-        }
-        if (echoProjectilePrefab == null)
-        {
-            Debug.LogError("EchoProjectilePrefab is not assigned in EchoShooter!");
-            return;
-        }
-        if (Camera.main == null)
-        {
-            Debug.LogError("No camera with tag 'MainCamera' found!");
-            return;
-        }
 
-        if (micInput.loudness >= minLoudness)
+        // Smooth loudness for gradual acceleration/deceleration
+        smoothedLoudness = Mathf.Lerp(smoothedLoudness, micInput.loudness, Time.deltaTime * smoothingSpeed);
+
+        if (smoothedLoudness >= minLoudness)
         {
-            isMakingNoise = true;
+            // normalize loudness 0–1
+            float t = Mathf.InverseLerp(minLoudness, 100f, smoothedLoudness);
+
+            // smoother fire rate scaling
+            float currentInterval = Mathf.Lerp(minShootInterval, maxShootInterval, t);
+
             shootTimer += Time.deltaTime;
-            if (shootTimer >= shootInterval)
+            if (shootTimer >= currentInterval)
             {
-                ShootEcho();
+                ShootEcho(t);
                 shootTimer = 0f;
             }
         }
         else
         {
-            if (isMakingNoise)
-            {
-                ShootEcho();
-            }
-            isMakingNoise = false;
-            shootTimer = 0f;
+            shootTimer = 0f; // reset if quiet
         }
     }
 
-    void ShootEcho()
+    void ShootEcho(float t)
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 shootDir = mouseWorldPos - transform.position;
-        float speed = Mathf.Clamp(baseSpeed + micInput.loudness * loudnessToSpeedMultiplier, baseSpeed, maxSpeed);
+        Vector2 shootDir = (mouseWorldPos - transform.position).normalized;
+
+        // speed scales smoothly with loudness
+        float speed = Mathf.Lerp(baseSpeed, maxSpeed, t);
 
         GameObject projectile = Instantiate(echoProjectilePrefab, transform.position, Quaternion.identity);
         EchoProjectile echo = projectile.GetComponent<EchoProjectile>();
-        if (echo == null)
+        if (echo != null)
         {
-            Debug.LogError("EchoProjectile component not found on prefab!");
-            return;
+            echo.Initialize(shootDir, speed);
         }
-        echo.Initialize(shootDir, speed);
     }
 }
