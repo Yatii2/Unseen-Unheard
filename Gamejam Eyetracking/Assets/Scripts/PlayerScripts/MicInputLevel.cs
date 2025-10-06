@@ -31,7 +31,6 @@ public class MicInputLevel : MonoBehaviour
 
     void Start()
     {
-        // Use the default microphone
         if (Microphone.devices.Length > 0)
         {
             micName = Microphone.devices[0];
@@ -60,8 +59,6 @@ public class MicInputLevel : MonoBehaviour
         // Pitch (nieuw)
         if (enablePitch)
         {
-            loudness = GetMaxVolume() * sensitivity;
-            Debug.Log("Sound Level: " + loudness.ToString("F2"));
             float detected = DetectPitchAutocorrelation();
             if (detected > 0f)
                 pitchHz = detected;
@@ -75,23 +72,15 @@ public class MicInputLevel : MonoBehaviour
         float maxVolume = 0f;
         float[] waveData = new float[sampleWindow];
         int micPosition = Microphone.GetPosition(micName) - (sampleWindow + 1);
-
         if (micPosition < 0) return 0;
 
         micClip.GetData(waveData, micPosition);
-        // Find the max value in the wave data
+
         for (int i = 0; i < sampleWindow; ++i)
         {
             float wavePeak = Mathf.Abs(waveData[i]);
-            if (wavePeak > maxVolume)
-            {
-                maxVolume = wavePeak;
-            }
+            if (wavePeak > maxVolume) maxVolume = wavePeak;
         }
-        // Ignore noise floor
-        if (maxVolume < 0.01f) maxVolume = 0f;
-        return maxVolume;
-    }
         return maxVolume;
     }
 
@@ -156,3 +145,4 @@ public class MicInputLevel : MonoBehaviour
         if (!enablePitch) return 0f;
         return Mathf.Clamp01(Mathf.InverseLerp(minPitch, maxPitch, smoothedPitchHz));
     }
+}
