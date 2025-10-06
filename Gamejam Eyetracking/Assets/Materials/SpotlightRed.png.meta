@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b5afd2997f085434198123869420646f
+guid: b55d89229c96ca7489dd02c4026a8aa0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3985301994614852661
-    second: Spotlight_0
+      213: 4178798979460333624
+    second: SpotlightRed_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spotlight_0
+      name: SpotlightRed_0
       rect:
         serializedVersion: 2
         x: 39
@@ -108,15 +108,15 @@ TextureImporter:
         width: 4019
         height: 4019
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bc3735073fc51b8c0800000000000000
-      internalID: -3985301994614852661
+      spriteID: 8308f7618831ef930800000000000000
+      internalID: 4178798979460333624
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0186cf07046465f43a649c62ce95583e
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Spotlight_0: -3985301994614852661
+      SpotlightRed_0: 4178798979460333624
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
