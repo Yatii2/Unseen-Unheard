@@ -7,21 +7,33 @@ public class EchoProjectile : MonoBehaviour
     private int bounceCount = 0;
     private int maxBounces = 3;
 
-    public void Initialize(Vector2 direction, float speed)
+    private SpriteRenderer sr;
+
+    void Awake()
     {
-        this.direction = direction.normalized;
-        this.speed = speed;
+        sr = GetComponent<SpriteRenderer>();
+    }
+
+    public void Initialize(Vector2 dir, float spd)
+    {
+        direction = dir.normalized;
+        speed = spd;
+    }
+
+    public void SetColor(Color c)
+    {
+        if (sr != null)
+            sr.color = c;
     }
 
     void Update()
     {
         transform.position += (Vector3)direction * speed * Time.deltaTime;
 
-        // Try different angle corrections to match your sprite's orientation
-        if (direction.sqrMagnitude > 0.01f)
+        if (direction.sqrMagnitude > 0.0001f)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle + -90f, Vector3.forward); // Try +90f, or remove/add minus as needed
+            transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
         }
     }
 
@@ -33,11 +45,8 @@ public class EchoProjectile : MonoBehaviour
             Vector2 normal = collision.contacts[0].normal;
             direction = Vector2.Reflect(inDirection, normal);
             bounceCount++;
-
             if (bounceCount > maxBounces)
-            {
                 Destroy(gameObject);
-            }
         }
         else
         {

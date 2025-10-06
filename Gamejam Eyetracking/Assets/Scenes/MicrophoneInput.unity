@@ -588,8 +588,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3bb6555666447547b660a1481c7283c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MicInputLevel
-  sensitivity: 250
+  sensitivity: 500
   loudness: 0
+  loudnessSampleWindow: 128
+  enablePitch: 1
+  pitchSampleSize: 2048
+  pitchHz: 0
+  smoothedPitchHz: 0
+  pitchSmoothing: 8
+  minPitch: 100
+  maxPitch: 800
+  minDetectPitch: 60
+  maxDetectPitch: 1200
 --- !u!114 &1695506945
 MonoBehaviour:
   m_ObjectHideFlags: 0
