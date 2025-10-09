@@ -72,7 +72,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.gameObject == player.gameObject && player.CompareTag("Player"))
         {
-            var playerScript = player.GetComponent<PlayerController>();
+            var playerScript = player.GetComponent<PlayerMovement>();
             if (playerScript != null)
             {
                 playerScript.ResetToSpawn();
