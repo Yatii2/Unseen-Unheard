@@ -27,7 +27,7 @@ public class WebcamFeed : MonoBehaviour
             visibility = Mathf.Clamp01(visibility);
 
             float darknessPercent = (1.0f - brightness) * 100f;
-            Debug.Log($"Brightness: {brightness:F2}, Darkness: {darknessPercent:F0}%, Visibility: {visibility:F2}");
+            //Debug.Log($"Brightness: {brightness:F2}, Darkness: {darknessPercent:F0}%, Visibility: {visibility:F2}");
 
             if (PlayerVisibility.Instance != null)
                 PlayerVisibility.Instance.SetVisibility(visibility);
