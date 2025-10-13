@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal; // Required for Light2D
 
 public class EchoProjectile : MonoBehaviour
 {
@@ -8,22 +9,40 @@ public class EchoProjectile : MonoBehaviour
     private int maxBounces = 3;
 
     private SpriteRenderer sr;
+    private Light2D lt; // Use Light2D for URP
+    private AudioSource audioSource;
+
+    [Header("Sound")]
+    public AudioClip shootClip; // Assign this in the prefab!
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        lt = GetComponent<Light2D>(); // Correct component type
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Initialize(Vector2 dir, float spd)
     {
         direction = dir.normalized;
         speed = spd;
+        PlayShootSound();
     }
 
     public void SetColor(Color c)
     {
         if (sr != null)
             sr.color = c;
+        if (lt != null)
+            lt.color = c; // This will now work!
+    }
+
+    private void PlayShootSound()
+    {
+        if (audioSource != null && shootClip != null)
+        {
+            audioSource.PlayOneShot(shootClip);
+        }
     }
 
     void Update()
