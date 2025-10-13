@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9ed180f75fb6f544ea9afb7bc96b7f93
+guid: f2cf8e6c72e32e24ebdd73c5eabe4a94
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2686575992668498211
-    second: EyeOpen (1)_0
+      213: -7919163728431662347
+    second: MicMuted_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: EyeOpen (1)_0
+      name: MicMuted_0
       rect:
         serializedVersion: 2
-        x: 343
-        y: 400
-        width: 394
-        height: 280
+        x: 817
+        y: 361
+        width: 287
+        height: 359
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 329291991a2a84520800000000000000
-      internalID: 2686575992668498211
+      spriteID: 5fa3ca8eb8a791290800000000000000
+      internalID: -7919163728431662347
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 909837ada45aec74da4b4ea33aa5cca8
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      EyeOpen (1)_0: 2686575992668498211
+      MicMuted_0: -7919163728431662347
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
