@@ -14,7 +14,7 @@ TagManager:
   - Water
   - UI
   - Wall
-  - 
+  - Accesoires
   - 
   - 
   - Post Processing
@@ -54,6 +54,9 @@ TagManager:
     locked: 0
   - name: Laser
     uniqueID: 1242089575
+    locked: 0
+  - name: Accesoires
+    uniqueID: 1301039559
     locked: 0
   m_RenderingLayers:
   - Default
