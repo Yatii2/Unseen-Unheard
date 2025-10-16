@@ -21,11 +21,24 @@ public class EnemyNoiseReactive : MonoBehaviour
     [Header("Mic Settings")]
     public MicInputLevel micInputLevel;
     public float detectionThreshold = 5.0f;
+
+    [Header("Reset Sound")]
+    public AudioClip resetSound;
+    [Range(0f, 1f)] public float resetVolume = 1f;
+    private AudioSource audioSource;
     void Start()
     {
         currentState = EnemyState.Idle;
         pathfinding = GetComponent<EnemyPathfinding>();
         currentDirection = Vector3.right;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 0f; // 2D sound
+        }
     }
     void Update()
     {
@@ -118,6 +131,10 @@ public class EnemyNoiseReactive : MonoBehaviour
             var playerScript = player.GetComponent<PlayerController>();
             if (playerScript != null)
             {
+                if (resetSound != null)
+                {
+                    audioSource.PlayOneShot(resetSound, resetVolume);
+                }
                 playerScript.ResetToSpawn();
                 Debug.Log("EnemyNoiseReactive: Player reset to spawn!");
             }

@@ -13,19 +13,41 @@ public class EnemyAI : MonoBehaviour
     public MicInputLevel micInputLevel;
     public float detectionThreshold = 5.0f;
 
+    [Header("Hearing")]
+    public float hearingWindow = 0.5f;
+    private float lastHeardTime = -Mathf.Infinity;
+
+    [Header("Reset Sound")]
+    public AudioClip resetSound;
+    [Range(0f, 1f)] public float resetVolume = 1f;
+    private AudioSource audioSource;
+
     private EnemyPathfinding pathfinding;
 
     private void Start()
     {
         currentState = EnemyState.Idle;
         pathfinding = GetComponent<EnemyPathfinding>();
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 0f;
+        }
     }
 
     private void Update()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (currentState == EnemyState.Idle && distanceToPlayer < chaseDistance && micInputLevel.loudness > detectionThreshold)
+        if (micInputLevel != null && micInputLevel.loudness > detectionThreshold)
+        {
+            lastHeardTime = Time.time;
+        }
+
+        if (currentState == EnemyState.Idle && distanceToPlayer < chaseDistance && micInputLevel != null && micInputLevel.loudness > detectionThreshold)
         {
             currentState = EnemyState.Chase;
         }
@@ -52,7 +74,6 @@ public class EnemyAI : MonoBehaviour
                 EnemyChase();
                 break;
             case EnemyState.Attack:
-
                 break;
         }
     }
@@ -68,19 +89,33 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject == player.gameObject && player.CompareTag("Player"))
+        if (player == null) return;
+
+        if (other.gameObject == player.gameObject || other.CompareTag("Player"))
         {
-            var playerScript = player.GetComponent<PlayerMovement>();
-            if (playerScript != null)
+            if (Time.time - lastHeardTime <= hearingWindow)
             {
-                playerScript.ResetToSpawn();
-                Debug.Log("EnemyAI: Player reset to spawn!");
+                var playerScript = player.GetComponent<PlayerMovement>();
+                if (playerScript != null)
+                {
+                    if (resetSound != null && audioSource != null)
+                    {
+                        audioSource.PlayOneShot(resetSound, resetVolume);
+                    }
+
+                    playerScript.ResetToSpawn();
+                    Debug.Log("EnemyAI: Player reset to spawn (heard recently)!");
+                }
+                else
+                {
+                    Debug.LogWarning("EnemyAI: Player script not found!");
+                }
             }
             else
             {
-                Debug.LogWarning("EnemyAI: Player script not found!");
+                Debug.Log("EnemyAI: Collision with player but player was not heard recently — no reset.");
             }
         }
     }

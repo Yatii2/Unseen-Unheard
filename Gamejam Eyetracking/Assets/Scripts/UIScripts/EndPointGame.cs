@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EndPoint : MonoBehaviour
+public class EndPointGame : MonoBehaviour
 {
     public AudioClip completedSound;
     [Range(0f, 1f)] public float soundVolume = 1f;
@@ -24,7 +24,7 @@ public class EndPoint : MonoBehaviour
             {
                 audioSource.PlayOneShot(completedSound, soundVolume);
             }
-            SceneManager.LoadScene("MicEnemyLevel");
+            SceneManager.LoadScene("EndScene");
         }
     }
 }

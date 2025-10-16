@@ -7,8 +7,13 @@ public class EnemyFlicker : MonoBehaviour
     public float invisibleDuration = 2f;
 
     [Header("References")]
-    public GameObject enemyVisual; // Assign your enemy GameObject here (must have Collider2D set as trigger)
-    public Transform player;       // Assign your player GameObject here
+    public GameObject enemyVisual;
+    public Transform player;
+
+    [Header("Reset Sound")]
+    public AudioClip resetSound;
+    [Range(0f, 1f)] public float resetVolume = 1f;
+    private AudioSource audioSource;
 
     private void Start()
     {
@@ -18,6 +23,16 @@ public class EnemyFlicker : MonoBehaviour
             enabled = false;
             return;
         }
+
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 0f; // 2D sound
+        }
+
         StartCoroutine(FlickerLoop());
     }
 
@@ -32,6 +47,29 @@ public class EnemyFlicker : MonoBehaviour
             // Disable enemy (invisible)
             enemyVisual.SetActive(false);
             yield return new WaitForSeconds(invisibleDuration);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.transform == player && PlayerVisibility.Instance.CurrentVisibility > 0.3f)
+        {
+            var playerScript = player.GetComponent<PlayerController>();
+            if (playerScript != null)
+            {
+                // Play the reset sound (if assigned) then reset the player
+                if (resetSound != null)
+                {
+                    audioSource.PlayOneShot(resetSound, resetVolume);
+                }
+
+                playerScript.ResetToSpawn();
+                Debug.Log("EnemyPatrolTrigger: Player reset to spawn!");
+            }
+            else
+            {
+                Debug.LogWarning("EnemyPatrolTrigger: Player script not found!");
+            }
         }
     }
 }
