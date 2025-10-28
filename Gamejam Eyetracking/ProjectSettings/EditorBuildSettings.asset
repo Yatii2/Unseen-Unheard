@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MicEnemyLevel.unity
     guid: 3ac6c383757078547afcdf129ae49beb
   - enabled: 1
-    path: Assets/Scenes/Test.unity
-    guid: 463247bd89c0f8749bf73beba1a5fa15
+    path: Assets/Scenes/EndScene.unity
+    guid: 35bb590aa2b06e248aa7a4daf43680b6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
